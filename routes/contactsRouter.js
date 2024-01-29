@@ -11,7 +11,7 @@ const {
   createContact,
   updateContact,
   updateFavoriteContact,
-} = require("../controllers/contactsControllers");
+} = require("../controllers/contacts/index.js");
 
 const contactsRouter = express.Router();
 
