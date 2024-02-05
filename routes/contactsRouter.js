@@ -3,6 +3,7 @@ const controllerWrap = require("../helpers/controllerWrapper.js");
 const schemas = require("../schemas/contactsSchemas.js");
 const validate = require("../helpers/validateBody.js");
 const isValidId = require("../helpers/isValidId.js");
+const authenticate = require("../middleware/authenticate.js");
 
 const {
   getAllContacts,
@@ -15,20 +16,32 @@ const {
 
 const contactsRouter = express.Router();
 
-contactsRouter.get("/", controllerWrap(getAllContacts));
+contactsRouter.get("/", authenticate, controllerWrap(getAllContacts));
 
-contactsRouter.get("/:id", isValidId, controllerWrap(getContactById));
+contactsRouter.get(
+  "/:id",
+  authenticate,
+  isValidId,
+  controllerWrap(getContactById)
+);
 
-contactsRouter.delete("/:id", isValidId, controllerWrap(deleteContact));
+contactsRouter.delete(
+  "/:id",
+  authenticate,
+  isValidId,
+  controllerWrap(deleteContact)
+);
 
 contactsRouter.post(
   "/",
+  authenticate,
   validate(schemas.createContactSchema),
   controllerWrap(createContact)
 );
 
 contactsRouter.put(
   "/:id",
+  authenticate,
   isValidId,
   validate(schemas.updateContactSchema),
   controllerWrap(updateContact)
@@ -36,6 +49,7 @@ contactsRouter.put(
 
 contactsRouter.patch(
   "/:id/favorite",
+  authenticate,
   isValidId,
   validate(schemas.updateFavoriteSchema),
   controllerWrap(updateFavoriteContact)
