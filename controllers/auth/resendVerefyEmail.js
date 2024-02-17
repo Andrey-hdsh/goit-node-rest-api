@@ -7,9 +7,7 @@ const { BASE_ULR } = process.env;
 
 const resendVerefyEmail = async (req, res) => {
   const { email } = req.body;
-  //   console.log(req.body);
-  const user = User.findOne({ email });
-  console.log(user);
+  const user = await User.findOne({ email });
 
   if (!user) {
     throw HttpError(400, "Email not a found");
@@ -21,7 +19,7 @@ const resendVerefyEmail = async (req, res) => {
 
   const verifyEmail = {
     to: email,
-    from: "andreymaximov_hdsh@meta.ua",
+    from: "hdsh138720@meta.ua",
     subject: "Verify Email!",
     text: "Hello world?",
     html: `<h1>Hello, kindly click on the link below to verify your account✔</h1>
