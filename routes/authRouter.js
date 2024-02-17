@@ -10,6 +10,8 @@ const upload = require("../middleware/upload");
 const getCurrent = require("../controllers/auth/getCurrent");
 const logout = require("../controllers/auth/logout.js");
 const updateAvatar = require("../controllers/auth/updateAvatar");
+const verifyEmail = require("../controllers/auth/verifyEmail.js");
+const resendVerefyEmail = require("../controllers/auth/resendVerefyEmail.js");
 
 const router = express.Router();
 
@@ -17,6 +19,14 @@ router.post(
   "/register",
   validate(schemas.registerSchema),
   controllerWrap(registration)
+);
+
+router.get("/verify/:verificationToken", controllerWrap(verifyEmail));
+
+router.post(
+  "/verify",
+  validate(schemas.verefyEmailSchema),
+  controllerWrap(resendVerefyEmail)
 );
 
 router.post("/login", validate(schemas.loginSchema), controllerWrap(login));
